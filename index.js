@@ -8,6 +8,7 @@ const keys = require("./config/keys");
 require('./models/User');
 require('./models/Product');
 require('./models/Stock');
+require('./models/Log');
 require("./services/passport");
 
 mongoose.connect(keys.mongoURI);
@@ -30,5 +31,6 @@ const PORT = process.env.PORT || 3000;
 
 require("./routes/authRoutes")(app);
 require("./routes/productRoutes")(app);
+require("./routes/stockRoutes")(app);
 
 app.listen(PORT);
