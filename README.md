@@ -34,9 +34,9 @@ $ npm run dev
 This API contains the following routes:
 
 #### Login Routes
-* __Sign Up - Body Required: (username, password, role)__
+* __Sign Up - Body Required: (username, password)__
 
-_(role can be null)_
+_(optional: role)_
 ```html
 /signup (post)
 ```
@@ -55,9 +55,9 @@ _(role can be null)_
 ```html
 /product (post) - (login as Admin)
 ```
-* __All products - Query required (sort_by, offset, limit); (sort_by=likes)__
+* __All products - Query optional (sort_by, offset, limit); (sort_by=likes)__
 
-_(sorting by name is by default)_
+_(default sorting is by name)_
 ```html
 /products?sort_by=likes&offset=0&limit=6 (get)
 
@@ -76,9 +76,9 @@ _(sorting by name is by default)_
 ```html
 /product (patch) - (login as Admin)
 ```
-* __Add - remove like - Param required (ProductName)__
+* __Toggle like - Param required (ProductName)__
 ```html
-/product/like/:ProductName (post) - (login)
+/product/like/:ProductName (post) - (login any role)
 ```
 #### Stock routes
 
@@ -123,9 +123,9 @@ password: password
 ```
 ### Versioning 
 
-NodeJS v8.9.1
+NodeJS v8.4.0
 
-npm v5.5.1
+npm v5.3.0
 
 Mongo v3.4.9
 

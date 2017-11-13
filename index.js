@@ -32,5 +32,6 @@ const PORT = process.env.PORT || 3000;
 require("./routes/authRoutes")(app);
 require("./routes/productRoutes")(app);
 require("./routes/stockRoutes")(app);
+require("./routes/logRoutes")(app);
 
 app.listen(PORT);
