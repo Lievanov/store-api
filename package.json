@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Store API challenge - Applaudo studios",
   "main": "index.js",
+  "engines": {
+    "node": "8.4.0",
+    "npm": "5.3.0"
+  },
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js"
