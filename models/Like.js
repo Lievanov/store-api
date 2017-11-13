@@ -6,4 +6,5 @@ const likeSchema = new Schema({
     date: { type: Date, default: Date.now }
 });
 
+mongoose.model('likes', likeSchema);
 module.exports = likeSchema;

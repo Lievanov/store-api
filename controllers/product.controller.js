@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Product = mongoose.model('products');
 const Log = mongoose.model("logs");
 const Stock = mongoose.model("stock");
+const Like = mongoose.model("likes");
 
 module.exports.NewProduct = async (req, res) => {
     const { name, price } = req.body;
@@ -18,7 +19,7 @@ module.exports.NewProduct = async (req, res) => {
 }
 
 module.exports.AllProducts = async (req, res) => {
-    let offset = 0, limit = 10;
+    let offset = 0, limit = 10, sort_by = "";
     
     if(req.query && req.query.offset){
         offset = parseInt(req.query.offset, 10);
@@ -26,12 +27,19 @@ module.exports.AllProducts = async (req, res) => {
     if(req.query && req.query.limit){
         limit = parseInt(req.query.limit, 10);
     }
-    const products = await Product.find().skip(offset).limit(limit);
-        if(products){
-            return res.status(200).send(products);
-        } else {
-            return res.status(404).send({ "Message": "Products not found."});
-        }
+    let products;
+    if(String(req.query.sort_by) === "like"){
+        //products = await Product.find().skip(offset).limit(limit).sort({ $sum });
+    } else if(String(req.query.sort_by) === "name"){
+        products = await Product.find().skip(offset).limit(limit).sort("name");
+    } else {
+        products = await Product.find().skip(offset).limit(limit);
+    }
+    if(products){
+        return res.status(200).send(products);
+    } else {
+        return res.status(404).send({ "Message": "Products not found."});
+    }
 }
 
 module.exports.DeleteProduct = async (req, res) => {
@@ -93,4 +101,32 @@ module.exports.GetProduct = async (req, res) => {
         answer["Stock"] = stock;
         return res.status(201).send(answer);
     }
+}
+
+module.exports.Like = async (req, res) => {
+    const name = req.params.ProductName;
+    if(!name){
+        return res.status(404).send({ "Message": "Product not found." });
+    }
+    const product = await Product.findOne({ "name": name });
+    if(!product){
+        return res.status(404).send({ "Message": "Product not found." });
+    }
+    let i=0, isProductLiked = false;
+    for(i; i<product.like.length; i++){
+        if(String(product.like[i].user) === req.user.id){ 
+            isProductLiked = true;
+            break;
+        }
+    }
+    if(isProductLiked){
+        product.like.splice(i,1);
+    } else {
+        const like = new Like({
+            user: req.user.id
+        });
+        product.like.push(like);
+    }
+    const newProduct = await product.save();
+    return res.status(201).send(newProduct);
 }

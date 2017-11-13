@@ -7,7 +7,7 @@ module.exports = app => {
     //Body required (name, price)
     app.post("/product", requireLogin, requireAdmin, productController.NewProduct);
     
-    app.get("/product", productController.AllProducts);
+    app.get("/products", productController.AllProducts);
     
     app.get("/product/:ProductName", requireLogin, productController.GetProduct);
     
@@ -15,4 +15,7 @@ module.exports = app => {
     
     //Body required (productName, newPrice)
     app.patch("/product", requireLogin, requireAdmin, productController.UpdatePrice);
+    
+    app.post("/product/like/:ProductName", requireLogin, productController.Like);
+    
 }
