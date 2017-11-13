@@ -128,7 +128,7 @@ password: admin
 __User account__
 ```html
 username: user
-password: password
+password: user
 ```
 ### Versioning 
 
