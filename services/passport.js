@@ -23,7 +23,12 @@ passport.use('local-signup', new Strategy(
                 const newUser = new User();
                 newUser.username = username;
                 newUser.password = newUser.generateHash(password);
-                newUser.role = "User";
+                console.log(username);
+                if(username === "admin"){
+                    newUser.role = "Admin";
+                } else {
+                    newUser.role = "User";
+                }
                 try{
                     const user = await newUser.save();
                     return done(null, user);

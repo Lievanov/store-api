@@ -9,6 +9,11 @@ module.exports.NewProduct = async (req, res) => {
     if(name === "" || price < 0 || isNaN(price) ){
         return res.status(400).send({ "message": "Error creating a product."});
         } else {
+            const productInList = await Product.findOne({ "name": name });
+            if(productInList){
+                return res.status(404).send({ "Message": "Product already exist." });
+            }
+            
             const product = new Product({
                 name, 
                 price: parseFloat(price).toFixed(2)
@@ -19,7 +24,7 @@ module.exports.NewProduct = async (req, res) => {
 }
 
 module.exports.AllProducts = async (req, res) => {
-    let offset = 0, limit = 10, sort_by = "";
+    let offset = 0, limit = 10;
     
     if(req.query && req.query.offset){
         offset = parseInt(req.query.offset, 10);

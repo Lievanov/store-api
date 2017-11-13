@@ -1,7 +1,7 @@
 const productController = require("../controllers/product.controller");
 const requireLogin = require("../middlewares/requireLogin");
 const requireAdmin = require("../middlewares/requireAdmin");
-const requireUser = require("../middlewares/requireUser");
+
 module.exports = app => {
     
     //Body required (name, price)
@@ -9,7 +9,7 @@ module.exports = app => {
     
     app.get("/products", productController.AllProducts);
     
-    app.get("/product/:ProductName", requireLogin, productController.GetProduct);
+    app.get("/product/:ProductName", productController.GetProduct);
     
     app.delete("/product/:ProductName", requireLogin, requireAdmin, productController.DeleteProduct);
     
