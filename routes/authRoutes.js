@@ -2,30 +2,25 @@ const passport = require("passport");
 
 module.exports = app => {
     app.post('/signup', 
-        passport.authenticate('local-signup'),
-        (req, res, err) => {
+        passport.authenticate("local-signup", {failureFlash: true}),
+        (req, res) => {
             res.status(201).send(req.user);
         }
     );
     
     app.post('/login',
-        (req, res, err) => {
-            if(err) { 
-                console.log("Error, no user found");
-                res.send(404); 
-                
-            }
-            res.send(200);
+        passport.authenticate("local-login"),
+        (req, res) => {
+            res.send(req.user);
         }
     );
     
-    app.get("/logout",
+    app.get('/logout', 
         (req, res) => {
             req.logout();
-            req.send();
+            res.send();
             (req, res) => {
-                console.log("here");
-                res.send(200);
+                res.redirect('/');
             }
     });
     

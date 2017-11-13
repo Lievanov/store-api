@@ -17,7 +17,7 @@ passport.deserializeUser((id, done) => {
 
 passport.use('local-signup', new Strategy(
     (username, password, done) => {
-        User.findOne({'username': username }, async (err, user, res, req) => {
+        User.findOne({'username': username }, async (err, user) => {
             if (err) { return done(err); }
             if (!user) { 
                 const newUser = new User();
@@ -28,13 +28,11 @@ passport.use('local-signup', new Strategy(
                     const user = await newUser.save();
                     return done(null, user);
                 } catch (err) {
-                    console.log("Error? try catch");
                     return done(null, false);
                 }
             }
-            if (user) { 
-                console.log("already exist");
-                return false; 
+            if (user) {
+                return done(null, false);
             }
         });
   }));
@@ -47,7 +45,6 @@ passport.use('local-login', new Strategy(
             if (!user) { 
                 return done(null, false);
             }
-            console.log("pw compare: "+bcrypt.compareSync(password, user.password));
             if (!bcrypt.compareSync(password, user.password)) { 
                 done(null, false);
                 return true;
