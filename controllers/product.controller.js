@@ -28,12 +28,10 @@ module.exports.AllProducts = async (req, res) => {
         limit = parseInt(req.query.limit, 10);
     }
     let products;
-    if(String(req.query.sort_by) === "like"){
-        //products = await Product.find().skip(offset).limit(limit).sort({ $sum });
-    } else if(String(req.query.sort_by) === "name"){
-        products = await Product.find().skip(offset).limit(limit).sort("name");
+    if(String(req.query.sort_by) === "likes"){
+        products = await Product.find().skip(offset).limit(limit).sort("-like");
     } else {
-        products = await Product.find().skip(offset).limit(limit);
+        products = await Product.find().skip(offset).limit(limit).sort("name");
     }
     if(products){
         return res.status(200).send(products);
