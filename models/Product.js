@@ -7,7 +7,9 @@ const productSchema = new Schema({
     name: { type: String },
     like: [LikeSchema],
     creationDate: { type: Date, default: Date.now },
-    lastUpdate: { type: Date, default: Date.now }
+    lastUpdate: { type: Date, default: Date.now },
+    owned: Number
 });
 
 mongoose.model('products', productSchema);
+module.exports = productSchema;

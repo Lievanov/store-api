@@ -53,7 +53,7 @@ module.exports.DeleteProduct = async (req, res) => {
 }
 
 module.exports.UpdatePrice = async (req, res) => {
-    let name = req.params.ProductName, price = parseFloat(req.params.NewPrice, 10);
+    let name = req.body.productName, price = parseFloat(req.body.newPrice, 10);
     const product = await Product.findOne({ "name": name });
     if(!name || !product || isNaN(price)) {
         return res.status(204).send({ "Message": "Product not found." });
@@ -65,7 +65,7 @@ module.exports.UpdatePrice = async (req, res) => {
     const UpdatedProduct = await product.save();
     if(UpdatedProduct){
         const log = new Log({
-            //user:
+            user: req.user.id,
             type: "Price",
             change: "Product changed: "+ product.name + " previous price: $" + product.price + " New price: $" + price
         });

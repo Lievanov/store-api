@@ -3,6 +3,8 @@ const requireLogin = require("../middlewares/requireLogin");
 const requireAdmin = require("../middlewares/requireAdmin");
 const requireUser = require("../middlewares/requireUser");
 module.exports = app => {
+    
+    //Body required (name, price)
     app.post("/product", requireLogin, requireAdmin, productController.NewProduct);
     
     app.get("/product", productController.AllProducts);
@@ -11,5 +13,6 @@ module.exports = app => {
     
     app.delete("/product/:ProductName", requireLogin, requireAdmin, productController.DeleteProduct);
     
-    app.patch("/product/:ProductName/:NewPrice", requireLogin, requireAdmin, productController.UpdatePrice);
+    //Body required (productName, newPrice)
+    app.patch("/product", requireLogin, requireAdmin, productController.UpdatePrice);
 }

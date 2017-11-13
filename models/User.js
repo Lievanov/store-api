@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt-nodejs")
 const Schema = mongoose.Schema;
+const productSchema = require("./Product");
 
 const userSchema = new Schema({
     username: {type: String, required: true},
     password: {type: String, required: true},
-    role: { type: String, default: "user" }
+    role: { type: String, default: "user" },
+    product: [productSchema]
 });
 
 userSchema.methods.generateHash = (password) => {
